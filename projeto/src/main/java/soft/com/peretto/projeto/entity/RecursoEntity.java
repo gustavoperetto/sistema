@@ -3,6 +3,7 @@ package soft.com.peretto.projeto.entity;
 import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 import soft.com.peretto.projeto.dto.RecursoDTO;
+import soft.com.peretto.projeto.entity.enums.TipoSituacaoUsuario;
 
 import java.util.Objects;
 
@@ -19,6 +20,9 @@ public class RecursoEntity {
 
     @Column(nullable = false)
     private String chave;
+
+    @Enumerated(EnumType.STRING)
+    private TipoSituacaoUsuario situacao;
 
     public RecursoEntity(RecursoDTO recurso) {
         BeanUtils.copyProperties(recurso, this);

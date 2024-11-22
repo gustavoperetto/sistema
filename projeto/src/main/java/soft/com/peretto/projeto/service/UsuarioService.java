@@ -1,6 +1,7 @@
 package soft.com.peretto.projeto.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import soft.com.peretto.projeto.dto.UsuarioDTO;
 import soft.com.peretto.projeto.entity.UsuarioEntity;
@@ -14,6 +15,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     //Read
     public List<UsuarioDTO> listarTodos() {
         List<UsuarioEntity> usuarios = usuarioRepository.findAll();
@@ -23,6 +27,7 @@ public class UsuarioService {
     //Create
     public void inserir(UsuarioDTO usuario) {
         UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+        usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuarioRepository.save(usuarioEntity);
     }
 
