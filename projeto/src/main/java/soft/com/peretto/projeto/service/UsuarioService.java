@@ -60,6 +60,22 @@ public class UsuarioService {
                 "Você está recebendo um email de cadastro! O número para validação é " + verificador.getUuid());
     }
 
+    public String verificarCadastro(String uuid) {
+        UsuarioVerificadorEntity usuarioVerificacao = usuarioVerificadorRepository.findByUuid(UUID.fromString(uuid)).get();
+        if (usuarioVerificacao != null) {
+            if (usuarioVerificacao.getDataExpiracao().compareTo(Instant.now()) >= 0) {
+                UsuarioEntity u = usuarioVerificacao.getUsuario();
+                u.setSituacao(TipoSituacaoUsuario.ATIVO);
+                usuarioRepository.save(u);
+                return "Usuário verificado";
+            } else {
+                usuarioVerificadorRepository.delete(usuarioVerificacao);
+                return "Tempo de verificação expirado";
+            }
+        } else {
+            return "Usuário não verificado";
+        }
+    }
     //Update
     public UsuarioDTO alterar(UsuarioDTO usuario) {
         UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
