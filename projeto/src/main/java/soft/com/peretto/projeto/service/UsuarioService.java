@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import soft.com.peretto.projeto.dto.UsuarioDTO;
 import soft.com.peretto.projeto.entity.UsuarioEntity;
+import soft.com.peretto.projeto.entity.enums.TipoSituacaoUsuario;
 import soft.com.peretto.projeto.repository.UsuarioRepository;
 
 import java.util.List;
@@ -28,6 +29,14 @@ public class UsuarioService {
     public void inserir(UsuarioDTO usuario) {
         UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
         usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        usuarioRepository.save(usuarioEntity);
+    }
+
+    public void inserirNovoUsuario(UsuarioDTO usuario) {
+        UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+        usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        usuarioEntity.setSituacao(TipoSituacaoUsuario.PENDENTE);
+        usuarioEntity.setId(null);
         usuarioRepository.save(usuarioEntity);
     }
 
