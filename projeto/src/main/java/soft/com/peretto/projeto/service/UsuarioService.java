@@ -5,10 +5,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import soft.com.peretto.projeto.dto.UsuarioDTO;
 import soft.com.peretto.projeto.entity.UsuarioEntity;
+import soft.com.peretto.projeto.entity.UsuarioVerificadorEntity;
 import soft.com.peretto.projeto.entity.enums.TipoSituacaoUsuario;
 import soft.com.peretto.projeto.repository.UsuarioRepository;
+import soft.com.peretto.projeto.repository.UsuarioVerificadorRepository;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UsuarioService {
@@ -17,7 +21,13 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private UsuarioVerificadorRepository usuarioVerificadorRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
 
     //Read
     public List<UsuarioDTO> listarTodos() {
@@ -38,6 +48,16 @@ public class UsuarioService {
         usuarioEntity.setSituacao(TipoSituacaoUsuario.PENDENTE);
         usuarioEntity.setId(null);
         usuarioRepository.save(usuarioEntity);
+
+        UsuarioVerificadorEntity verificador = new UsuarioVerificadorEntity();
+        verificador.setUsuario(usuarioEntity);
+        verificador.setUuid(UUID.randomUUID());
+        verificador.setDataExpiracao(Instant.now().plusMillis(900000));
+        usuarioVerificadorRepository.save(verificador);
+
+        emailService.enviarEmailTexto(usuario.getEmail(),
+                "Novo usuário cadastrado",
+                "Você está recebendo um email de cadastro! O número para validação é " + verificador.getUuid());
     }
 
     //Update
