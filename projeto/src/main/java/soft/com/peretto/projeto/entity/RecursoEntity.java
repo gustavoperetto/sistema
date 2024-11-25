@@ -21,9 +21,6 @@ public class RecursoEntity {
     @Column(nullable = false)
     private String chave;
 
-    @Enumerated(EnumType.STRING)
-    private TipoSituacaoUsuario situacao;
-
     public RecursoEntity(RecursoDTO recurso) {
         BeanUtils.copyProperties(recurso, this);
     }

@@ -1,5 +1,8 @@
 package soft.com.peretto.projeto.entity.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum TipoSituacaoUsuario {
 
     ATIVO ("A","Ativo"),
@@ -9,11 +12,13 @@ public enum TipoSituacaoUsuario {
     private String codigo;
     private String descricao;
 
+
     private TipoSituacaoUsuario(String codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
 
+    @JsonValue
     public String getCodigo() {
         return codigo;
     }
@@ -30,6 +35,7 @@ public enum TipoSituacaoUsuario {
         this.descricao = descricao;
     }
 
+    @JsonCreator
     public static TipoSituacaoUsuario doValor(String codigo) {
         if(codigo.equals("A")) {
             return ATIVO;

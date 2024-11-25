@@ -2,6 +2,7 @@ package soft.com.peretto.projeto.dto;
 
 import org.springframework.beans.BeanUtils;
 import soft.com.peretto.projeto.entity.UsuarioEntity;
+import soft.com.peretto.projeto.entity.enums.TipoSituacaoUsuario;
 
 public class UsuarioDTO {
 
@@ -10,6 +11,7 @@ public class UsuarioDTO {
     private String login;
     private String senha;
     private String email;
+    private TipoSituacaoUsuario situacao;
 
     //Lê um Entity e converte para DTO
     public UsuarioDTO(UsuarioEntity usuario) {
@@ -59,6 +61,14 @@ public class UsuarioDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public TipoSituacaoUsuario getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(TipoSituacaoUsuario situacao) {
+        this.situacao = situacao;
     }
 
     // Não precisa de HashCode & Equals

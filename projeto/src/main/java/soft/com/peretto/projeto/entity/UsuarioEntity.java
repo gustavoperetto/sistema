@@ -3,6 +3,7 @@ package soft.com.peretto.projeto.entity;
 import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 import soft.com.peretto.projeto.dto.UsuarioDTO;
+import soft.com.peretto.projeto.entity.enums.TipoSituacaoUsuario;
 
 import java.util.Objects;
 
@@ -25,6 +26,10 @@ public class UsuarioEntity {
 
     @Column(nullable = false)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoSituacaoUsuario situacao;
 
     //Faz a conversão
     public UsuarioEntity(UsuarioDTO usuario) {
@@ -73,6 +78,14 @@ public class UsuarioEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public TipoSituacaoUsuario getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(TipoSituacaoUsuario situacao) {
+        this.situacao = situacao;
     }
 
     @Override
